@@ -6,6 +6,7 @@ class HashMap
     @length = 0
   end
 
+  # this function takes the key as input and returns hash code, which accesses buckets
   def hash(string)
     hash_code = 0
     prime_number = 17
@@ -15,23 +16,47 @@ class HashMap
     hash_code
   end
 
-  def set(key, value); end
+  def set(key, value)
+    # if key exists, update key with new value
+    # if key does not exist but there is a collision, resolve
+    # if key does not exist and bucket is empty, create normally
+    # grow buckets as needed
+  end
 
-  def get(key); end
+  def get(key)
+    # if key found, return value
+    # else return nil
+  end
 
-  def key?(key); end
+  def has(key)
+    # if key found, returns true
+    # else returns false
+  end
 
-  def remove(key); end
+  def remove(key)
+    # if key in hash map, remove entry and return entry's value
+    # if key not in map, return nil
+  end
 
-  def length; end
+  def length
+    # return number of stored keys
+  end
 
-  def clear; end
+  def clear
+    # remove all entries in hash map
+  end
 
-  def keys; end
+  def keys
+    # return array containing all keys in hash map
+  end
 
-  def values; end
+  def values
+    # return array containing all values
+  end
 
-  def entries; end
+  def entries
+    # return array of each key, value pair [[first_key, first_value], etc.]
+  end
 
   private
 
@@ -43,3 +68,5 @@ class HashMap
     (length / capacity) >= LOAD_FACTOR
   end
 end
+
+#  raise IndexError if index.negative? || index >= @buckets.length
