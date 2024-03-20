@@ -1,4 +1,10 @@
+# frozen_string_literal: true
+
+require_relative 'linked_list'
+
+# This class approximates a Hashmap, implemented in Ruby.
 class HashMap
+  include LinkedList
   LOAD_FACTOR = 0.75
 
   def initialize

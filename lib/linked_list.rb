@@ -11,25 +11,19 @@ end
 
 # A class for the LinkedList buckets to handle collisions within the Hashmap.
 class LinkedList
-  def initialize
-    @head = nil
-    @size = 0
+  attr_reader :head
+
+  def initialize(key, value)
+    @head = Node.new(key,value)
   end
 
-  # create helper method to find tail
+  # wait there shouldn't be nil heads - create the linked list when we create the first node
   def append(key, value)
-    if find_tail.nil?
-      @head = Node.new(key,value)
-    else
-      find_tail.next_node = Node.new(key,value)
-    end
+    find_tail.next_node = Node.new(key,value)
   end
 
-  private
-
-  # will this break if there is no head or tail?
-  def find_tail(node)
-    return node if tail?(node = @head)
+  def find_tail(node = @head)
+    return node if tail?(node)
 
     find_tail(node.next_node)
   end
