@@ -17,10 +17,19 @@ class LinkedList
     @head = Node.new(key,value)
   end
 
-  # wait there shouldn't be nil heads - create the linked list when we create the first node
   def append(key, value)
     find_tail.next_node = Node.new(key,value)
   end
+
+  def contains?(key, node = @head)
+    return true if node.key == key
+
+    return false if tail?(node)
+
+    contains?(key, node = next_node)
+  end
+
+  private
 
   def find_tail(node = @head)
     return node if tail?(node)
@@ -32,5 +41,14 @@ class LinkedList
     return true if node.next_node.nil?
 
     false
+  end
+
+  # this method is probably fine, might need to be public
+  def each_node
+    node = @head
+    until node.nil?
+      yield node
+      node = node.next_node
+    end
   end
 end

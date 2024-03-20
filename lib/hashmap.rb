@@ -23,9 +23,11 @@ class HashMap
   end
 
   def set(key, value)
-    # if key exists, update key with new value
+    index = hash_index(key)
+    @buckets[index] ||= LinkedList.new(key, value)
+    # if key exists, update key with new value - check
+    # if key does not exist and bucket is empty, create normally - check
     # if key does not exist but there is a collision, resolve
-    # if key does not exist and bucket is empty, create normally
     # grow buckets as needed
   end
 
@@ -34,10 +36,7 @@ class HashMap
     # else return nil
   end
 
-  def has(key)
-    # if key found, returns true
-    # else returns false
-  end
+  def has?(key); end
 
   def remove(key)
     # if key in hash map, remove entry and return entry's value
@@ -66,6 +65,13 @@ class HashMap
 
   private
 
+  def hash_index(key)
+    index = hash(key)
+    raise IndexError if index.negative? || index >= @buckets.length
+
+    index
+  end
+
   def capacity
     @buckets.length
   end
@@ -74,5 +80,3 @@ class HashMap
     (length / capacity) >= LOAD_FACTOR
   end
 end
-
-#  raise IndexError if index.negative? || index >= @buckets.length
