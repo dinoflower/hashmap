@@ -26,4 +26,19 @@ class LinkedList
       @tail = temp
     end
   end
+
+  private
+
+  def find_tail(node)
+    # return node if tail?(node) wait is that the actual code
+
+    # find_tail(node.next_node)
+  end
+
+  # okay this can test for the node just need to traverse
+  def tail?(node)
+    return true if node.next_node.nil?
+
+    false
+  end
 end
