@@ -44,17 +44,20 @@ class HashMap
   def remove(key)
     return nil unless has?(key)
 
+    @length -= 1
     index = hash_index(key)
-    # if key in hash map, remove entry and return entry's value
-    # if key not in map, return nil - check
+    target_bucket = @buckets[index]
+    target_bucket.delete(key)
   end
 
   def length
     keys.length
   end
 
+  # too cheeky?
   def clear
-    # remove all entries in hash map
+    @buckets = Array.new(16)
+    @length = 0
   end
 
   def keys

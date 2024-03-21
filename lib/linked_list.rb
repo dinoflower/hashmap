@@ -39,9 +39,17 @@ class LinkedList
     node if node.key == key
   end
 
+  # TODO: rework, feels inelegant
   def delete(key)
-    # find parent node, if there is one
-    parent_node = find(key)
+    if @head.key == key
+      output = @head
+      @head.next_node = @head
+    else
+      parent_node = find(key) { |node| node.next_node.key == key }
+      output = parent_node.next_node
+      parent_node.next_node = output.next_node
+    end
+    output
   end
 
   private
