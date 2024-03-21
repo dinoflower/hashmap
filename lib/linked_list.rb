@@ -31,13 +31,12 @@ class LinkedList
     contains?(key, node.next_node)
   end
 
-  # does this need to take a block??
   def find(key, node = @head)
     return nil if node.nil?
 
-    each_node do |node|
-      return node if node.key == key
-    end
+    each_node { |node| return node if yield(node) } if block_given?
+
+    node if node.key == key
   end
 
   def delete(key)
