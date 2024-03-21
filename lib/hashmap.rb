@@ -4,7 +4,6 @@ require_relative 'linked_list'
 
 # This class approximates a Hashmap, implemented in Ruby.
 class HashMap
-  include LinkedList
   LOAD_FACTOR = 0.75
 
   def initialize
@@ -12,30 +11,28 @@ class HashMap
     @length = 0
   end
 
-  # this function takes the key as input and returns hash code, which accesses buckets
-  def hash(string)
-    hash_code = 0
-    prime_number = 17
-
-    string.each_char { |char| hash_code = prime_number & hash_code + char.ord }
-
-    hash_code
-  end
-
-  # okay close but now that would create a duplicate entry
+  # also clunky - consider reworking
   def set(key, value)
     index = hash_index(key)
     @buckets[index] ||= LinkedList.new(key, value)
-    if high_load?
+    entry = @buckets[index].find(key)
+    if entry
+      entry.value = value
+    elsif high_load?
       increase_capacity
+      set(key, value)
     else
       @buckets[index].append(key, value)
+      @length += 1
     end
   end
 
+  # this method breaks - suspect it's when there are multiple KV pairs in one bucket
   def get(key)
     index = hash_index(key)
     target_bucket = @buckets[index]
+    return nil if target_bucket.nil?
+
     target_bucket.find(key).value
   end
 
@@ -56,7 +53,6 @@ class HashMap
     keys.length
   end
 
-  # too cheeky?
   def clear
     @buckets = Array.new(16)
     @length = 0
@@ -87,8 +83,8 @@ class HashMap
   end
 
   def hash_index(key)
-    index = hash(key)
-    raise IndexError if index.negative? || index >= @buckets.length
+    index = hash(key) % capacity
+    raise IndexError if index.negative? || index >= capacity
 
     index
   end
@@ -99,5 +95,15 @@ class HashMap
 
   def high_load?
     (length / capacity) >= LOAD_FACTOR
+  end
+
+  # this function takes the key as input and returns hash code, which accesses buckets
+  def hash(string)
+    hash_code = 0
+    prime_number = 17
+
+    string.each_char { |char| hash_code = prime_number * hash_code + char.ord }
+
+    hash_code
   end
 end

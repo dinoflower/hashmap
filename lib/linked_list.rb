@@ -52,6 +52,14 @@ class LinkedList
     output
   end
 
+  def each_node
+    node = @head
+    until node.nil?
+      yield node
+      node = node.next_node
+    end
+  end
+
   private
 
   def find_tail(node = @head)
@@ -64,14 +72,5 @@ class LinkedList
     return true if node.next_node.nil?
 
     false
-  end
-
-  # this method is probably fine, might need to be public
-  def each_node
-    node = @head
-    until node.nil?
-      yield node
-      node = node.next_node
-    end
   end
 end
