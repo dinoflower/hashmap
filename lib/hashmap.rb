@@ -32,11 +32,14 @@ class HashMap
   end
 
   def get(key)
-    # if key found, return value
-    # else return nil
+    index = hash_index(key)
+    target_bucket = @buckets[index]
+    target_bucket.find(key)
   end
 
-  def has?(key); end
+  def has?(key)
+    @buckets.each #linkedlist.contains?(key)
+  end
 
   def remove(key)
     # if key in hash map, remove entry and return entry's value

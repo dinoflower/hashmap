@@ -29,6 +29,15 @@ class LinkedList
     contains?(key, node = next_node)
   end
 
+  # may need to return node in general later, if so, retool Hashmap #get method
+  def find(key, node = @head)
+    return nil if node.nil?
+
+    each_node do |node|
+      return node.value if node.key == key
+    end
+  end
+
   private
 
   def find_tail(node = @head)
