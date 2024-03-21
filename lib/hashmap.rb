@@ -55,11 +55,11 @@ class HashMap
   end
 
   def keys
-    # return array containing all keys in hash map
+    entries.map(&:first)
   end
 
   def values
-    # return array containing all values
+    entries.map(&:last)
   end
 
   def entries
@@ -68,7 +68,6 @@ class HashMap
 
       bucket.each_node { |entry| array << [entry.key, entry.value] }
     end
-    # return array of each key, value pair [[first_key, first_value], etc.]
   end
 
   private

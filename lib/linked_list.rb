@@ -16,11 +16,11 @@ class LinkedList
   attr_reader :head
 
   def initialize(key, value)
-    @head = Node.new(key,value)
+    @head = Node.new(key, value)
   end
 
   def append(key, value)
-    find_tail.next_node = Node.new(key,value)
+    find_tail.next_node = Node.new(key, value)
   end
 
   def contains?(key, node = @head)
@@ -28,7 +28,7 @@ class LinkedList
 
     return false if tail?(node)
 
-    contains?(key, node = next_node)
+    contains?(key, node.next_node)
   end
 
   # may need to return node in general later, if so, retool Hashmap #get method
