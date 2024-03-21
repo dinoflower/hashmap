@@ -38,7 +38,7 @@ class HashMap
   end
 
   def has?(key)
-    @buckets.each #linkedlist.contains?(key)
+    keys.include?(key)
   end
 
   def remove(key)
@@ -47,7 +47,7 @@ class HashMap
   end
 
   def length
-    # return number of stored keys
+    keys.length
   end
 
   def clear
