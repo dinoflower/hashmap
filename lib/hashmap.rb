@@ -63,6 +63,11 @@ class HashMap
   end
 
   def entries
+    @buckets.each_with_object([]) do |bucket, array|
+      next unless bucket
+
+      bucket.each_node { |entry| array << [entry.key, entry.value] }
+    end
     # return array of each key, value pair [[first_key, first_value], etc.]
   end
 
