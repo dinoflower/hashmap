@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A class for individual nodes within the LinkedList.
 class Node
   attr_accessor :key, :value, :next_node
