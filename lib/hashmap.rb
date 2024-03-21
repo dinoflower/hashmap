@@ -34,7 +34,7 @@ class HashMap
   def get(key)
     index = hash_index(key)
     target_bucket = @buckets[index]
-    target_bucket.find(key)
+    target_bucket.find(key).value
   end
 
   def has?(key)
@@ -42,8 +42,11 @@ class HashMap
   end
 
   def remove(key)
+    return nil unless has?(key)
+
+    index = hash_index(key)
     # if key in hash map, remove entry and return entry's value
-    # if key not in map, return nil
+    # if key not in map, return nil - check
   end
 
   def length

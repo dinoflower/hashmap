@@ -31,13 +31,18 @@ class LinkedList
     contains?(key, node.next_node)
   end
 
-  # may need to return node in general later, if so, retool Hashmap #get method
+  # does this need to take a block??
   def find(key, node = @head)
     return nil if node.nil?
 
     each_node do |node|
-      return node.value if node.key == key
+      return node if node.key == key
     end
+  end
+
+  def delete(key)
+    # find parent node, if there is one
+    parent_node = find(key)
   end
 
   private
