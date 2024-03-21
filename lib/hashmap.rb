@@ -22,13 +22,15 @@ class HashMap
     hash_code
   end
 
+  # okay close but now that would create a duplicate entry
   def set(key, value)
     index = hash_index(key)
     @buckets[index] ||= LinkedList.new(key, value)
-    # if key exists, update key with new value - check
-    # if key does not exist and bucket is empty, create normally - check
-    # if key does not exist but there is a collision, resolve
-    # grow buckets as needed
+    if high_load?
+      increase_capacity
+    else
+      @buckets[index].append(key, value)
+    end
   end
 
   def get(key)
@@ -68,6 +70,14 @@ class HashMap
     entries.map(&:last)
   end
 
+  private
+
+  def increase_capacity
+    stored_entries = entries
+    @buckets = Array.new(capacity * 2)
+    stored_entries.each { |key, value| set(key, value) }
+  end
+
   def entries
     @buckets.each_with_object([]) do |bucket, array|
       next unless bucket
@@ -75,8 +85,6 @@ class HashMap
       bucket.each_node { |entry| array << [entry.key, entry.value] }
     end
   end
-
-  private
 
   def hash_index(key)
     index = hash(key)
