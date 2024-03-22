@@ -4,6 +4,8 @@ require_relative 'linked_list'
 
 # This class approximates a Hashmap, implemented in Ruby.
 class HashMap
+  # attr_reader :length
+
   LOAD_FACTOR = 0.75
 
   def initialize
@@ -11,7 +13,7 @@ class HashMap
     @length = 0
   end
 
-  # also clunky - consider reworking
+  # mostly works but needs to be tuned
   def set(key, value)
     index = hash_index(key)
     @buckets[index] ||= LinkedList.new(key, value)
@@ -22,12 +24,11 @@ class HashMap
       increase_capacity
       set(key, value)
     else
-      @buckets[index].append(key, value)
+      @buckets[index].prepend(key, value)
       @length += 1
     end
   end
 
-  # this method breaks - suspect it's when there are multiple KV pairs in one bucket
   def get(key)
     index = hash_index(key)
     target_bucket = @buckets[index]
@@ -49,9 +50,9 @@ class HashMap
     target_bucket.delete(key)
   end
 
-  def length
-    keys.length
-  end
+  # def length
+    # keys.length
+  # end
 
   def clear
     @buckets = Array.new(16)
