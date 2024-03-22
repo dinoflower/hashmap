@@ -4,16 +4,28 @@ require_relative 'linked_list'
 
 # This class approximates a Hashmap, implemented in Ruby.
 class HashMap
-  # attr_reader :length
-
   LOAD_FACTOR = 0.75
 
   def initialize
     @buckets = Array.new(16)
-    @length = 0
   end
 
-  # mostly works but needs to be tuned
+  # def set(key, value)
+    # index = hash_index(key)
+    # if @buckets[index].nil?
+      # make a fresh list
+    # elsif has?(key)
+      # make the new entry where it goes, replacing any existing entry
+      # @buckets[index].update(key, value) ?
+    # elsif high_load?
+      # increase_capacity
+      # set(key, value)
+    # else
+      # @buckets[index].prepend(key, value)
+    # end
+  # end
+
+  # works but I'm not sure if it's my favorite way of doing it
   def set(key, value)
     index = hash_index(key)
     @buckets[index] ||= LinkedList.new(key, value)
@@ -25,7 +37,6 @@ class HashMap
       set(key, value)
     else
       @buckets[index].prepend(key, value)
-      @length += 1
     end
   end
 
@@ -44,19 +55,19 @@ class HashMap
   def remove(key)
     return nil unless has?(key)
 
-    @length -= 1
     index = hash_index(key)
     target_bucket = @buckets[index]
-    target_bucket.delete(key)
+    output = target_bucket.delete(key)
+    empty_bucket(index) if target_bucket.head.nil?
+    output
   end
 
-  # def length
-    # keys.length
-  # end
+  def length
+    keys.length
+  end
 
   def clear
     @buckets = Array.new(16)
-    @length = 0
   end
 
   def keys
@@ -69,6 +80,10 @@ class HashMap
 
   private
 
+  def empty_bucket(index)
+    @bucket[index] = nil
+  end
+
   def increase_capacity
     stored_entries = entries
     @buckets = Array.new(capacity * 2)
@@ -76,6 +91,8 @@ class HashMap
   end
 
   def entries
+    return nil if @buckets.empty?
+
     @buckets.each_with_object([]) do |bucket, array|
       next unless bucket
 
