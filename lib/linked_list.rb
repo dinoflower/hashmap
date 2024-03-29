@@ -23,13 +23,6 @@ class LinkedList
     find_tail.next_node = Node.new(key, value)
   end
 
-  def prepend(key, value)
-    temp = Node.new(key, value)
-    temp.next_node = @head unless @head.nil?
-
-    @head = temp
-  end
-
   def contains?(key, node = @head)
     return true if node.key == key
 
