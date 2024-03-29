@@ -48,11 +48,11 @@ class LinkedList
     find(key, node.next_node)
   end
 
-  # TODO: rework, feels inelegant
+  # verbose
   def delete(key)
     if @head.key == key
       output = @head
-      @head.next_node = @head
+      @head = @head.next_node
     else
       parent_node = find(key) { |node| node.next_node.key == key }
       output = parent_node.next_node

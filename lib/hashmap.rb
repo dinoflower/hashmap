@@ -10,22 +10,6 @@ class HashMap
     @buckets = Array.new(16)
   end
 
-  # def set(key, value)
-    # index = hash_index(key)
-    # if @buckets[index].nil?
-      # make a fresh list
-    # elsif has?(key)
-      # make the new entry where it goes, replacing any existing entry
-      # @buckets[index].update(key, value) ?
-    # elsif high_load?
-      # increase_capacity
-      # set(key, value)
-    # else
-      # @buckets[index].prepend(key, value)
-    # end
-  # end
-
-  # works but I'm not sure if it's my favorite way of doing it
   def set(key, value)
     index = hash_index(key)
     @buckets[index] ||= LinkedList.new(key, value)
@@ -57,9 +41,7 @@ class HashMap
 
     index = hash_index(key)
     target_bucket = @buckets[index]
-    output = target_bucket.delete(key)
-    empty_bucket(index) if target_bucket.head.nil?
-    output
+    target_bucket.delete(key)
   end
 
   def length
@@ -79,10 +61,6 @@ class HashMap
   end
 
   private
-
-  def empty_bucket(index)
-    @bucket[index] = nil
-  end
 
   def increase_capacity
     stored_entries = entries
